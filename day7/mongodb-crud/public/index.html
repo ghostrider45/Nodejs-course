@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD with MongoDB</title>
+    <base href="/">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="lib/jquery-3.7.0.js"></script>
+    <script>
+        function refresh(){
+            $.ajax({
+                url : "/data",
+                success : function(res){
+                    // console.log(res);
+                    $("#listbody").empty();
+                    res.forEach(function(user, idx){
+                        $("#listbody").append(`
+                        <tr>
+                            <td>${ idx + 1 }</td>
+                            <td>${ user.usertitle }</td>
+                            <td>${ user.usermail }</td>
+                            <td>${ user.usercity }</td>
+                            <td>
+                                <button data-uid="${ user._id }" class="btn btn-warning">Edit / ${ user.usertitle } </button>
+                            </td>
+                            <td>
+                                <button data-uid="${ user._id }" class="btn btn-danger">Delete / ${ user.usertitle } </button>
+                            </td>
+                        </tr>
+                `)
+                    })
+
+                },
+                error : function(error){
+                    console.log("Error ", error)
+                }
+            })
+        }
+
+        function addUser(){
+            var user = {
+                usertitle : $("#usertitle").val(),
+                usermail : $("#usermail").val(),
+                usercity : $("#usercity").val()
+            }
+            $.ajax({
+                url : "/data",
+                method : "post",
+                data : JSON.stringify(user),
+                dataType : "json",
+                contentType : "application/json",
+                success : function(res){
+                    refresh();
+                    console.log(res.message);
+                    $("#usertitle").val("");
+                    $("#usermail").val("");
+                    $("#usercity").val("");
+                },
+                error : function(err){
+                    console.log("Error ", err )
+                }
+            })
+        }
+        
+        function updateUser(){
+            var updateuser = {
+                user_id :  $("#edit_userid").val(),
+                usertitle : $("#edit_usertitle").val(),
+                usermail : $("#edit_usermail").val(),
+                usercity : $("#edit_usercity").val()
+            }
+            $.ajax({
+                url : "/edit/"+updateuser.user_id,
+                method : "post",
+                data : JSON.stringify(updateuser),
+                dataType : "json",
+                contentType : "application/json",
+                success : function(res){
+                    refresh();
+                    console.log(res.message);
+                    $("#edit_userid").val();
+                    $("#edit_usertitle").val();
+                    $("#edit_usermail").val();
+                    $("#edit_usercity").val();
+                    $(".updateuser").hide("slow");
+                    $(".adduser").show("slow");
+                },
+                error : function(err){
+                    console.log("Error ", err )
+                }
+            })
+        }
+
+        function edituserevent(evt){
+            // alert("you clicked on edit button"+evt.target.getAttribute("data-uid"));
+            $.ajax({
+                url : "/edit/"+evt.target.getAttribute("data-uid"),
+                method : "get",
+                success : function(res){
+                    $("#edit_userid").val(res._id);
+                    $("#edit_usertitle").val(res.usertitle);
+                    $("#edit_usermail").val(res.usermail);
+                    $("#edit_usercity").val(res.usercity);
+                    $(".updateuser").show("slow");
+                    $(".adduser").hide("slow");
+                },
+                error : function(err){
+                    console.log("Error ", err )
+                }
+            })
+        }
+
+        function deleteuserevent(evt){
+            $.ajax({
+                url : "/delete/"+evt.target.getAttribute("data-uid"),
+                method : "get",
+                success : function(res){
+                   refresh();
+                },
+                error : function(err){
+                    console.log("Error ", err )
+                }
+            })
+        }
+        $(function(){
+            // alert("jQuery is loaded")
+            // $("h2").first().html("hello from jquery");
+            refresh();
+            $("#addbtn").click(addUser);
+            $("#editbtn").click(updateUser);
+            $("#listbody").on("click","button.btn-warning", edituserevent);
+            $("#listbody").on("click","button.btn-danger", deleteuserevent);
+            $(".updateuser").hide();
+            // $(".adduser").hide();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>CRUD Application using Express and MongoDB</h1>
+        <div class="card adduser">
+            <div class="card-body">
+                <div class="card-title"> <h2> Add New User </h2> </div>
+                <div class="mb-3">
+                    <label for="usertitle" class="form-label">User Title</label>
+                    <input class="form-control" id="usertitle">
+                </div>                  
+                <div class="mb-3">
+                    <label for="usermail" class="form-label">User eMail</label>
+                    <input class="form-control" id="usermail">
+                </div>                  
+                <div class="mb-3">
+                    <label for="usercity" class="form-label">User City</label>
+                    <input class="form-control" id="usercity">
+                </div>                  
+                <div class="mb-3">
+                    <button id="addbtn" type="submit" class="btn btn-primary mb-3">Add User</button>
+                </div>                  
+            </div>
+        </div>
+        <div class="card updateuser">
+            <div class="card-body">
+                <div class="card-title"> <h2> Update User Info </h2> </div>
+                <div class="mb-3">
+                    <label for="edit_usertitle" class="form-label">Update User Title</label>
+                    <input class="form-control" id="edit_usertitle">
+                    <input type="hidden" id="edit_userid">
+                </div>                  
+                <div class="mb-3">
+                    <label for="edit_usermail" class="form-label">Update User eMail</label>
+                    <input class="form-control" id="edit_usermail">
+                </div>                  
+                <div class="mb-3">
+                    <label for="edit_usercity" class="form-label">Update User City</label>
+                    <input class="form-control" id="edit_usercity">
+                </div>                  
+                <div class="mb-3">
+                    <button id="editbtn" type="submit" class="btn btn-primary mb-3">Update User Info</button>
+                </div>                  
+            </div>
+        </div>
+        <hr>
+        <h2>User's List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sl #</th>
+                    <th>Title</th>
+                    <th>eMail</th>
+                    <th>City</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="listbody"></tbody>
+        </table>
+    </div>
+</body>
+</html>

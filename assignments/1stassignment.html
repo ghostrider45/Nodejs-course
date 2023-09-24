@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <script>
+        function calculate() {
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+            var operation = document.getElementById("operation").value;
+
+
+            var result;
+            if (operation === "add") {
+                result = num1 + num2;
+                document.getElementById("result").innerHTML = "Result: " + result;
+            } else if (operation === "subtract") {
+                result = num1 - num2;
+                document.getElementById("result").innerHTML = "Result: " + result;
+            } else if (operation === "multiply") {
+                result = num1 * num2;
+                document.getElementById("result").innerHTML = "Result: " + result;
+            } else if (operation === "divide") {
+                if (num2 === 0) {
+            document.getElementById("result").innerHTML = "Error: Division by zero is not allowed";
+            }
+            else{
+                result = num1 / num2;
+                document.getElementById("result").innerHTML = "Result: " + result;
+            }
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <h1>Calculator</h1>
+    <label for="num1">Number 1:</label>
+    <input type="number" id="num1" name="num1" required><br><br>
+
+    <label for="num2">Number 2:</label>
+    <input type="number" id="num2" name="num2" required><br><br>
+
+    <label for="operation">Select operation:</label>
+    <select id="operation" name="operation">
+        <option value="add">Addition</option>
+        <option value="subtract">Subtraction</option>
+        <option value="multiply">Multiplication</option>
+        <option value="divide">Division</option>
+    </select><br><br>
+
+    <button onclick="calculate()">Calculate</button><br><br>
+
+    <div id="result"></div>
+</body>
+</html>

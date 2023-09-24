@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+   const fs = require('fs');
+const path = require('path');
+
+const watchedFilePath = '/index.html';
+const backupFolderPath = './backup'; // Folder to store backup files
+
+// Create the backup folder if it doesn't exist
+if (!fs.existsSync(backupFolderPath)) {
+  fs.mkdirSync(backupFolderPath);
+}
+
+// Function to create a backup of the watched file
+const createBackup = () => {
+  const timestamp = Date.now();
+  const backupFileName = `backup_${timestamp}.txt`;
+  const backupFilePath = path.join(backupFolderPath, backupFileName);
+
+  fs.copyFile(watchedFilePath, backupFilePath, (err) => {
+    if (err) {
+      console.error('Error creating backup:', err);
+    } else {
+      console.log(`Backup created: ${backupFileName}`);
+    }
+  });
+};
+
+// Function to handle FileNotFound exception
+const handleFileNotFound = (err) => {
+  if (err.code === 'ENOENT') {
+    console.error('File not found. Please ensure the file exists:', watchedFilePath);
+  } else {
+    console.error('Error occurred:', err);
+  }
+};
+
+// Watch the file for changes and create backup on change
+fs.watch(watchedFilePath, (eventType, filename) => {
+  if (eventType === 'change') {
+    console.log(`File ${filename} changed. Creating backup...`);
+    createBackup();
+  }
+});
+
+// Check if the watched file exists initially
+fs.access(watchedFilePath, fs.constants.F_OK, (err) => {
+  if (err) {
+    handleFileNotFound(err);
+  } else {
+    console.log(`Watching file: ${watchedFilePath}`);
+  }
+});
+
+    </script>
+</head>
+<body>
+</body>
+</html>

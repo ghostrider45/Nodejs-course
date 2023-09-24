@@ -1,0 +1,131 @@
+var express= require('express');
+var mongoose=require('mongoose');
+var path = require('path');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
+var User = mongoose.model("User",new Schema({
+    id: ObjectId,
+    usertitle: String,
+    usermail: String,
+    Usercity: String
+}));
+var url="mongodb+srv://admin:wIzkMZ8PUQqfJbsP@cluster0.znvdhh9.mongodb.net/usersdb?retryWrites=true&w=majority";
+mongoose.connect(url).then(
+    function(res){
+        console.log("Db connected");
+    }
+)
+.catch(
+    function(err){
+        console.log(err);
+    }
+)
+
+//----------------------------
+var app = express();
+//----------------------------
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req,res,next){
+console.log(req.url)
+next();
+});
+//Crud
+//read
+
+/* setTimeout(function(){ 
+User.find().then(
+    function(res){
+console.log(res)
+    }
+)
+.catch(
+    function(err){
+        console,log("Error",err);
+    }
+    
+)
+},2000); */
+
+
+//Create USer
+/* setTimeout(function(){ 
+   var newUSer = {
+    usertitle: "Hulk",
+    usermail: "Bruce@bannar.com",
+    Usercity: "toronto"
+   };
+   var user = new User(newUSer);
+   user.save().then(
+    function(res){
+        console.log(res.usertitle+" Was added successfully to the Database");
+    }
+   ).catch(
+    function(error){
+        console.log(error)
+    }
+   )
+},2000);
+ */
+
+//Read before Update
+
+/* setTimeout(function(){ 
+User.findOne({usertitle: "Ironman" }).then(
+    function(res){
+console.log(res)
+    }
+)
+.catch(
+    function(err){
+        console,log("Error",err);
+    }
+    
+)
+},2000); */
+
+
+//Update
+
+/* setTimeout(function () {
+    User.findByIdAndUpdate("64b8bb887bf70aa74f240087", {
+        Usercity: "Mumbai"
+    }).then(
+        function (updatedUser) {
+            console.log("User's city was updated successfully:", updatedUser);
+        }
+    ).catch(function (err) {
+        console.log("Error", err);
+    });
+}, 2000); */
+
+//DELETE 
+
+/* setTimeout(function () {
+ User.findByIdAndDelete({_id:"64b8bb887bf70aa74f240087"})
+ .then(function(res){
+console.log(res.usertitle," User was Deleted")
+ })
+ .catch(function(err){
+    console.log("ERror",err);
+ })
+}, 2000);
+ */
+
+//Serve the homepage
+ app.get("/",function(req,res){
+res.send();
+}) 
+//serve the records in database
+app.get("/data",function(req,res){
+    res.send(' Do You want Data');
+    }) 
+
+//------------------------------------------
+app.listen(5050,'localhost',function(error){
+    if(error){
+        console.log("Error there:",error)
+    }
+    else{
+        console.log("Server is started at localhost 5050")
+    }
+})

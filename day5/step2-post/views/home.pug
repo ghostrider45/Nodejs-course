@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Document
+  body
+    h1 Read and write data using Express | Pug
+    h2= title
+
+    form(action="/" method="post")
+      label(for="herotitle") 
+        input(type="text" name="htitle")
+      button(type="submit") Add Hero 
+      hr
+
+      ol 
+      each hero in herolist
+        li= hero

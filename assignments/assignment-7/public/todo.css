@@ -1,0 +1,80 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+.main{
+    height: 150px;
+    width: 350px;
+    background-color: cornflowerblue;
+    padding-left: 50px;
+    margin-top: 50px;
+    margin-left: 65px;
+}
+
+.container{
+    height: 800px;
+    width: 500px;
+}
+
+input{
+    height: 30px;
+ width: 130px;
+}
+
+h2{
+    padding-top: 15px ;
+}
+
+button{
+    height: 35px;
+    margin-left: -4px;
+    width: 120px;
+}
+ul li {
+  margin-right: 150px;
+  list-style-type:none;
+  margin-left: 64px ;
+  width: 351px;
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    background: #eee;
+    font-size: 18px;
+    transition: 0.2s;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+ul li:hover {
+    background: #ddd;
+  }
+
+  ul li.checked {
+    background:#0000ff;
+    color: #fff;
+    text-decoration: line-through;
+  }  
+
+  .completed {
+    text-decoration: line-through;
+  }
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 4px 8px;
+    background-color: #f44336;
+    color: white;
+    z-index: 1;
+    height: 32px;
+    width: 18px;
+  }
+  
+  .close:hover {
+    background-color: #d32f2f;
+  }
+  
+  

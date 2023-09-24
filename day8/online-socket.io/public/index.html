@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #log p{
+            color: crimson;
+        }
+    </style>
+    <script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script>
+       var socket = io();
+       document.addEventListener("DOMContentLoaded", function(){
+        // socket.emit("clientevent",Math.round( Math.random() * 1000 ));
+        document.getElementById("btn").addEventListener("click", function(){
+            socket.emit("clientevent", document.getElementById("ip").value);
+        })
+        socket.addEventListener("messageevent", function(message){
+            // console.log(message);
+            document.getElementById("log").innerHTML += "<p>"+message+"</p>";
+        });
+       /*  
+        setInterval(function(){
+            socket.emit("clientevent",Math.round( Math.random() * 1000 ));
+        },2000); 
+        */
+       })
+    </script>
+</head>
+<body>
+    <h1>Welcome to Socket IO example</h1>
+    <hr>
+    <input id="ip" type="text">
+    <button id="btn">Send</button>
+    <hr>
+    <div id="log">
+
+    </div>
+</body>
+</html>

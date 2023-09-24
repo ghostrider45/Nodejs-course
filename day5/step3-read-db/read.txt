@@ -1,0 +1,9 @@
+name: admin
+
+ password:admin12345
+
+ database name: onlinedb
+
+ collection name: heros
+
+mongodb+srv://admin:admin12345@cluster0.bq2j8c9.mongodb.net/onlinedb?retryWrites=true&w=majority

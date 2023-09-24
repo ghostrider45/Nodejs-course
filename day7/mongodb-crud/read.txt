@@ -1,0 +1,3 @@
+admin  wIzkMZ8PUQqfJbsP
+
+mongodb+srv://admin:wIzkMZ8PUQqfJbsP@cluster0.znvdhh9.mongodb.net/usersdb?retryWrites=true&w=majority

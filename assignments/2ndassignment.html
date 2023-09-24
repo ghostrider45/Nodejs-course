@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function promise(duration,data){
+return new Promise((resolve)=>{
+    setTimeout(()=>{
+        const json = JSON.stringify(data);
+        resolve(json);
+    },duration
+    );
+})
+        }
+        const data={name:"Ganesh",age:30};
+        const duration =2000;
+        promise(duration,data)
+        .then((json) =>{
+            console.log(json);
+        })
+        .catch((error)=> {console.error(error);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
